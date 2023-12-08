@@ -57,7 +57,7 @@ class EmailController extends Controller
         ]);
 
         try {
-            $email = Email::find($id);
+            $email = Emails::find($id);
             $email->email = $request->email;
             $email->save();
 

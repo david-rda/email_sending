@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Api\ExhibitionController;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\EmailController;
 
 Route::post("/signin", [AuthController::class, "signin"]);
 Route::post("/signout", [AuthController::class, "signout"]);
@@ -20,7 +21,16 @@ Route::group(["prefix" => "exhibition", "middleware" => "auth:api"], function() 
 
 Route::group(["prefix" => "detail"], function() {
     Route::post("/add/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
-    Route::get("/get/{id}", [ApiController::class, "getDetail"]);
+    Route::get("/get/{id}", [ApiController::class, "getDetail"])->where(["id" => "[0-9]+"]);
+});
+
+// ელ.ფოსტების მარშუტები
+Route::group(["prefix" => "email", "middleware" => "auth:api"], function() {
+    Route::get("/list", [EmailController::class, "index"]); // ელ.ფოსტების სიის მარშუტი
+    Route::get("/show/{id}", [EmailController::class, "show"])->where(["id" => "[0-9]+"]); // ელ.ფოსტების სიის მარშუტი
+    Route::delete("/delete/{id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
+    Route::post("/add", [EmailController::class, "store"]); // ელ.ფოსტის დამატების მარშუტი
+    Route::put("/update/{id}", [EmailController::class, "update"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის განახლების მარშუტი
 });
 
 ?>
