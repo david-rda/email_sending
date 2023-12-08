@@ -22,9 +22,9 @@ class BeneficiaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|min:7',
-            'position' => 'required|string|max:255',
-            'mobile' => 'required|string|max:9|min:9',
+            'name' => 'required|max:255|min:7',
+            'position' => 'required|max:255',
+            'mobile' => 'required|max:9|min:9',
             'email' => 'required|email|max:255',
             // 'company_name' => 'required|string|max:255',
             // 'activity_name' => 'required|string|max:255',
@@ -43,10 +43,14 @@ class BeneficiaryRequest extends FormRequest
     public function messages() {
         return [
             'name.required' => 'სახელი აუცილებელია.',
-            'name.string' => 'სახელი უნდა იყოს ტექსტური მნიშვნელობა.',
             'name.min' => 'სახელი, გვარი უნდა შედგებიდეს მინიმუმ 7 სიმბოლოსგან.',
             'name.max' => 'სახელი, გვარი უნდა შედგებიდეს მქსიმუმ 255 სიმბოლოსგან.',
             'position.required' => 'თანამდებობა აუცილებელია.',
+            "email.required" => "ელ.ფოსტის მითითება აუცილებელია",
+            "mobile.required" => "საკონტაქტო ტელეფონის მითითება აუცილებელია",
+            "mobile.min" => "საკონტაქტო ტელეფონის ნომერი უნდა შედგებოდეს მინიმუმ 9 სიმბოლოსგან",
+            "mobile.max" => "საკონტაქტო ტელეფონის ნომერი უნდა შედგებოდეს მაქსიმუმ 9 სიმბოლოსგან",
+            "email.max" => "ელ.ფოსტა უნდა შედგებოდეს მაქსიმუმ 255 სიმბოლოსგან",
             // 'company_name.required' => 'კომპანია აუცილებელია.',
             // 'country.required' => 'ქვეყანა აუცილებელია.',
             // 'stage_name.required' => 'საქმიანი ურთიერთობის ეტაპი აუცილებელია.',

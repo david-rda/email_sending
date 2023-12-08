@@ -15,30 +15,32 @@ class ApiController extends Controller
      * @return json
      */
     public function addDetail(BeneficiaryRequest $request, int $id) {
-        dd($request->validated());
         $validated = $request->validated();
 
-        $details = Detail::updateOrCreate([
-            "mobile" => $validated["mobile"]
-        ], [
-            "exhibition_id" => $id,
-            "name" => $validated["name"],
-            "position" => $validated["position"],
-            "mobile" => $validated["mobile"],
-            "email" => $validated["email"],
-            "activity" => $request->activity,
-            "recomendation" => $validated["recomendation"],
-            "comment" => $validated["comment"],
-        ]);
+        if($validated) {
+            $details = Detail::updateOrCreate([
+                "email" => $validated["email"]
+            ], [
+                "exhibition_id" => $id,
+                "product_info_id" => 1,
+                "name" => $validated["name"],
+                "position" => $validated["position"],
+                "mobile" => $validated["mobile"],
+                "email" => $validated["email"],
+                "activity" => !empty($request->activity) ? 1 : 0,
+                "recomendation" => $validated["recomendation"],
+                "comment" => $validated["comment"],
+            ]);
 
-        if($details) {
-            return response()->json([
-                "success" => "დაემატა."
-            ], 200);
-        }else {
-            return response()->json([
-                "error" => "ვერ დაემატა."
-            ], 422);
+            if($details) {
+                return response()->json([
+                    "success" => "დაემატა."
+                ], 200);
+            }else {
+                return response()->json([
+                    "error" => "ვერ დაემატა."
+                ], 422);
+            }
         }
     }
 
@@ -47,7 +49,7 @@ class ApiController extends Controller
      * @method GET
      * @return json
      */
-    public function getDetail(Request $request) {
-        return Detail::where("email", $request->email)->first();
+    public function getDetail(int $id) {
+        return Detail::find($id);
     }
 }

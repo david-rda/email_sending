@@ -18,7 +18,9 @@ Route::group(["prefix" => "exhibition", "middleware" => "auth:api"], function() 
     Route::put("/update/{id}", [ExhibitionController::class, "update"])->where(["id" => "[0-9]+"]); // გამოფენის განახლების მარშუტი
 });
 
-Route::post("/add/detail/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
-Route::get("/get/detail", [ApiController::class, "getDetail"]);
+Route::group(["prefix" => "detail"], function() {
+    Route::post("/add/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
+    Route::get("/get/{id}", [ApiController::class, "getDetail"]);
+});
 
 ?>

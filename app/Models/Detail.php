@@ -12,7 +12,7 @@ class Detail extends Model
 {
     use HasFactory;
 
-    protected $table = "";
+    protected $table = "details";
 
     protected $primaryKey = "id";
 
