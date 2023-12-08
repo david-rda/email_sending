@@ -11,14 +11,14 @@ class EmailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:email-command';
+    protected $signature = 'send:emails';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'this command will send emails in every 3 months';
 
     /**
      * Execute the console command.

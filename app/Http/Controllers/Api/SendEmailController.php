@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class SendEmailController extends Controller
 {
-    //
+    public function sendEmail() {
+        return "sent!";
+    }
 }
