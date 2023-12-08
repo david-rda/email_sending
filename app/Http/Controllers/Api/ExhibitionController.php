@@ -75,7 +75,7 @@ class ExhibitionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         $exhibition_delete = Exhibition::find($id)->delete();
 
