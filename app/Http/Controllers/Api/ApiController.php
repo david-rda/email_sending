@@ -72,4 +72,13 @@ class ApiController extends Controller
     public function getDetail(int $id) {
         return Detail::find($id);
     }
+
+    /**
+     * ბენეფიციარის მიერ შევსებული კონკრეტული დეტალების წამოღების მეთოდი
+     * @method GET
+     * @return json
+     */
+    public function getDetails() {
+        return Detail::all();
+    }
 }

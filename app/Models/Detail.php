@@ -22,16 +22,19 @@ class Detail extends Model
         "position",
         "mobile",
         "email",
-        "activity",
         "recomendation",
         "comment",
     ];
 
-    public $timestamps = true;
+    protected $hidden = [
+        "organization"
+    ];
 
-    public function product_info() {
-        return $this->hasMany(ProductInfo::class, "id", "product_info_id");
-    }
+    protected $appends = [
+        "organizations"
+    ];
+
+    public $timestamps = true;
 
     public function exhibition() {
         return $this->belongsTo(Exhibition::class, "id", "exhibition_id");
@@ -39,5 +42,9 @@ class Detail extends Model
 
     public function organization() {
         return $this->hasMany(Organization::class, "detail_id", "id");
+    }
+
+    public function getOrganizationsAttribute() {
+        return $this->organization;
     }
 }
