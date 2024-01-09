@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('details', function (Blueprint $table) {
             $table->id();
             $table->integer("exhibition_id");
-            $table->integer("product_info_id");
             $table->string("name");
             $table->string("position");
             $table->integer("mobile");
             $table->string("email");
-            $table->integer("activity")->default(0);
             $table->text("recomendation");
             $table->text("comment");
             $table->timestamps();

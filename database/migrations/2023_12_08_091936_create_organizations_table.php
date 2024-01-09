@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string("country");
             $table->string("stage_name");
             $table->string("target_country_name");
-            $table->integer("template_volume");
+            $table->string("template_volume");
             $table->integer("template_price");
-            $table->integer("product_volume");
+            $table->string("product_volume");
             $table->integer("product_price");
             $table->timestamps();
         });

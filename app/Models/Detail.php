@@ -18,7 +18,6 @@ class Detail extends Model
 
     protected $fillable = [
         "exhibition_id",
-        "product_info_id",
         "name",
         "position",
         "mobile",

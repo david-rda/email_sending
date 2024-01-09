@@ -11,7 +11,7 @@ Route::post("/signin", [AuthController::class, "signin"]);
 Route::post("/signout", [AuthController::class, "signout"]);
 
 // გამოფენების მარშუტები
-Route::group(["prefix" => "exhibition", "middleware" => "auth:api"], function() {
+Route::group(["prefix" => "exhibition"], function() {
     Route::get("/list", [ExhibitionController::class, "index"]); // გამოფენების სიის მარშუტი
     Route::get("/show/{id}", [ExhibitionController::class, "show"])->where(["id" => "[0-9]+"]); // გამოფენების სიის მარშუტი
     Route::delete("/delete/{id}", [ExhibitionController::class, "destroy"])->where(["id" => "[0-9]+"]); // გამოფენის წაშლის მარშუტი
@@ -20,12 +20,12 @@ Route::group(["prefix" => "exhibition", "middleware" => "auth:api"], function() 
 });
 
 Route::group(["prefix" => "detail"], function() {
-    Route::post("/add/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
+    Route::post("/add", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
     Route::get("/get/{id}", [ApiController::class, "getDetail"])->where(["id" => "[0-9]+"]);
 });
 
 // ელ.ფოსტების მარშუტები
-Route::group(["prefix" => "email", "middleware" => "auth:api"], function() {
+Route::group(["prefix" => "email"], function() {
     Route::get("/list", [EmailController::class, "index"]); // ელ.ფოსტების სიის მარშუტი
     Route::get("/show/{id}", [EmailController::class, "show"])->where(["id" => "[0-9]+"]); // ელ.ფოსტების სიის მარშუტი
     Route::delete("/delete/{id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
