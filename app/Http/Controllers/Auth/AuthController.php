@@ -11,9 +11,12 @@ class AuthController extends Controller
 {
     public function signin(AuthRequest $request) {
         if($request->validated()) {
-            $credentials = $request->only("email", "password");
+            $data = [
+                "email" => $request->validated()["email"],
+                "password" => $request->validated()["password"],
+            ];
 
-            if(Auth::attempt($credentials)) {
+            if(Auth::attempt($data)) {
                 $token = Auth::user()->createToken("TOKEN")->accessToken;
 
                 return response()->json([
