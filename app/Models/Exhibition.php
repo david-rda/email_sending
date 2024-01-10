@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\EmailReceiver;
 
 class Exhibition extends Model
 {
@@ -18,14 +17,20 @@ class Exhibition extends Model
         "title",
     ];
 
+    protected $appends = [
+        "label"
+    ];
+
     public $timestamps = true;
 
-    public function email_receiver() {
-        return $this->hasMany(EmailReceiver::class, "exhibition_id", "id");
-    }
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "title",
+    ];
 
-    public function exhibition() {
-        return $this->hasMany(Detail::class, "exhibition_id", "id");
+    public function getLabelAttribute() {
+        return $this->getAttribute("title");
     }
 }
 

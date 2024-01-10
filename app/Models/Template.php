@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Emails extends Model
+class Template extends Model
 {
     use HasFactory;
 
-    protected $table = "emails";
+    protected $table = "templates";
 
     protected $primaryKey = "id";
 
     protected $fillable = [
-        "template_id",
-        "email",
+        "exhibition_id",
+        "datetime",
+        "text",
+        "link"
     ];
 
     public $timestamps = true;
 }
-
-?>

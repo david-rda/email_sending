@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Api\ExhibitionController;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\EmailController;
+use App\Http\Controllers\Api\TemplateController;
 
 Route::post("/signin", [AuthController::class, "signin"]);
 Route::post("/signout", [AuthController::class, "signout"]);
@@ -23,6 +24,10 @@ Route::group(["prefix" => "detail"], function() {
     Route::post("/add/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
     Route::get("/get/{id}", [ApiController::class, "getDetail"])->where(["id" => "[0-9]+"]);
     Route::get("/list", [ApiController::class, "getDetails"]);
+});
+
+Route::group(["prefix" => "template"], function() {
+    Route::post("/add", [TemplateController::class, "store"])->where(["id" => "[0-9]+"]);
 });
 
 // ელ.ფოსტების მარშუტები
