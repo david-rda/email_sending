@@ -16,7 +16,7 @@ class ApiController extends Controller
      * @method POST
      * @return json
      */
-    public function addDetail(Request $request) {
+    public function addDetail(Request $request, $id) {
         $this->validate($request, [
             "fullname" => "required",
             "position" => "required",
@@ -27,7 +27,7 @@ class ApiController extends Controller
         $details = Detail::updateOrCreate([
             "email" => $request->email
         ], [
-            "exhibition_id" => 1,
+            "exhibition_id" => $id,
             "name" => $request->fullname,
             "position" => $request->position,
             "mobile" => $request->mobile,

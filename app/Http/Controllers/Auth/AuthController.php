@@ -26,7 +26,7 @@ class AuthController extends Controller
                 ], 200);
             }else {
                 return response()->json([
-                    "error" => "სისტემაში შესვლა ვერ განხორციელდა."
+                    "error" => "არასწორი ელ. ფოსტა ან პაროლი."
                 ], 422);
             }
         }else {
