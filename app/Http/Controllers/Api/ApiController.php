@@ -36,6 +36,7 @@ class ApiController extends Controller
             "comment" => $request->additional_info,
         ]);
 
+        Organization::where("detail_id", $details->id)->delete();
         foreach($request->dynamicData as $organizations) {
             Organization::insert([
                 "detail_id" => $details->id,
