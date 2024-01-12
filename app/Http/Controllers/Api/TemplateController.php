@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Template;
 use App\Models\Emails;
+use Carbon\Carbon;
 
 class TemplateController extends Controller
 {
@@ -35,13 +36,15 @@ class TemplateController extends Controller
             'exhibition_id' => $request->exhibition["id"],
             'datetime' => $request->datetime,
             'text' => $request->text,
-            "link" => "http://localhost:8000/customer/" . $request->exhibition["id"]
+            "link" => "http://localhost:8080/customer/" . $request->exhibition["id"]
         ]);
 
         foreach($request->emails as $emails) {
             Emails::insert([
                 "template_id" => $template->id,
-                "email" => $emails
+                "email" => $emails,
+                "created_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
             ]);
         }
 
