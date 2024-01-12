@@ -23,7 +23,7 @@ Route::group(["prefix" => "exhibition"], function() {
 Route::group(["prefix" => "detail"], function() {
     Route::post("/add/{id}", [ApiController::class, "addDetail"])->where(["id" => "[0-9]+"]);
     Route::get("/get/{id}", [ApiController::class, "getDetail"])->where(["id" => "[0-9]+"]);
-    Route::get("/list", [ApiController::class, "getDetails"]);
+    Route::get("/list/{id?}", [ApiController::class, "getDetails"])->where(["id" => "[0-9]+"]);
 });
 
 Route::group(["prefix" => "template"], function() {

@@ -79,7 +79,9 @@ class ApiController extends Controller
      * @method GET
      * @return json
      */
-    public function getDetails() {
+    public function getDetails($id = null) {
+        if($id != null) return Detail::where("exhibition_id", $id)->get();
+
         return Detail::all();
     }
 }
