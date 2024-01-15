@@ -14,7 +14,7 @@ class Emails extends Model
     protected $primaryKey = "id";
 
     protected $fillable = [
-        "template_id",
+        "exhibition_id",
         "email",
     ];
 

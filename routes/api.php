@@ -17,7 +17,7 @@ Route::group(["prefix" => "exhibition"], function() {
     Route::get("/show/{id}", [ExhibitionController::class, "show"])->where(["id" => "[0-9]+"]); // გამოფენების სიის მარშუტი
     Route::delete("/delete/{id}", [ExhibitionController::class, "destroy"])->where(["id" => "[0-9]+"]); // გამოფენის წაშლის მარშუტი
     Route::post("/add", [ExhibitionController::class, "store"]); // გამოფენის დამატების მარშუტი
-    Route::put("/update/{id}", [ExhibitionController::class, "update"])->where(["id" => "[0-9]+"]); // გამოფენის განახლების მარშუტი
+    // Route::put("/update/{id}", [ExhibitionController::class, "update"])->where(["id" => "[0-9]+"]); // გამოფენის განახლების მარშუტი
 });
 
 Route::group(["prefix" => "detail"], function() {

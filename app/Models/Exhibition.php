@@ -15,6 +15,8 @@ class Exhibition extends Model
 
     protected $fillable = [
         "title",
+        "country",
+        "datetime"
     ];
 
     protected $appends = [
@@ -27,10 +29,27 @@ class Exhibition extends Model
         "created_at",
         "updated_at",
         "title",
+        "email"
     ];
 
     public function getLabelAttribute() {
         return $this->getAttribute("title");
+    }
+
+    public function email() {
+        return $this->hasMany(Emails::class, "exhibition_id", "id");
+    }
+
+    public function getEmailsAttribute() {
+        return $this->email;
+    }
+
+    public function getDateTimeAttribute($value) {
+        return $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d H:i");
+    }
+
+    public function setDateTimeAttribute($value) {
+        $this->attributes["datetime"] = $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d H:i");
     }
 }
 

@@ -23,22 +23,6 @@ class Template extends Model
 
     public $timestamps = true;
 
-    protected $appends = [
-        "target_emails",
-    ];
-
-    protected $hidden = [
-        "emails"
-    ];
-
-    public function emails() {
-        return $this->hasMany(Emails::class, "template_id", "id");
-    }
-
-    public function getTargetEmailsAttribute() {
-        return $this->emails;
-    }
-
     public function getDateTimeAttribute($value) {
         return $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d H:i"); 
     }

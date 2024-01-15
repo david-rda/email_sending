@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('exhibitions', function (Blueprint $table) {
             $table->id();
             $table->string("title");
+            $table->string("country");
+            $table->datetime("datetime");
             $table->timestamps();
         });
     }
