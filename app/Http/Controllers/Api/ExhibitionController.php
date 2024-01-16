@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exhibition;
+use App\Models\Emails;
 
 class ExhibitionController extends Controller
 {
@@ -34,15 +35,6 @@ class ExhibitionController extends Controller
             $exhibition->datetime = $request->datetime;
             $exhibition->save();
 
-            // foreach($request->emails as $emails) {
-            //     Emails::insert([
-            //         "exhibition_id" => $exhibition->id,
-            //         "email" => $emails,
-            //         "created_at" => Carbon::now(),
-            //         "updated_at" => Carbon::now(),
-            //     ]);
-            // }
-
             return response()->json([
                 "success" => "გამოფენა დაემატა.",
                 "data" => Exhibition::all()
@@ -65,30 +57,30 @@ class ExhibitionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, int $id)
-    // {
-    //     $this->validate($request, [
-    //         "title" => "required",
-    //         "datetime" => "required",
-    //         "country" => "required"
-    //     ]);
+    public function update(Request $request, int $id)
+    {
+        $this->validate($request, [
+            "title" => "required",
+            "datetime" => "required",
+            "country" => "required"
+        ]);
 
-    //     try {
-    //         $exhibition = Exhibition::find($id);
-    //         $exhibition->title = $request->title;
-    //         $exhibition->country = $request->country;
-    //         $exhibition->datetime = $request->datetime;
-    //         $exhibition->save();
+        try {
+            $exhibition = Exhibition::find($id);
+            $exhibition->title = $request->title;
+            $exhibition->country = $request->country;
+            $exhibition->datetime = $request->datetime;
+            $exhibition->save();
 
-    //         return response()->json([
-    //             "success" => "გამოფენა განახლდა."
-    //         ], 200);
-    //     }catch(Exception $e) {
-    //         return response()->json([
-    //             "error" => "გამოფენა ვერ განახლდა."
-    //         ], 422);
-    //     }
-    // }
+            return response()->json([
+                "success" => "გამოფენა განახლდა."
+            ], 200);
+        }catch(Exception $e) {
+            return response()->json([
+                "error" => "გამოფენა ვერ განახლდა."
+            ], 422);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -96,6 +88,8 @@ class ExhibitionController extends Controller
     public function destroy(int $id)
     {
         $exhibition_delete = Exhibition::find($id)->delete();
+
+        Emails::where("exhibition_id", $id)->delete();
 
         if($exhibition_delete) {
             return response()->json([

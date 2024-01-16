@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Connection;
 use App\Models\ProductInfo;
 use App\Models\Organization;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detail extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "details";
 
@@ -24,6 +25,10 @@ class Detail extends Model
         "email",
         "recomendation",
         "comment",
+    ];
+
+    protected $dates = [
+        "deleted_at"
     ];
 
     protected $hidden = [

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("email");
             $table->text("recomendation");
             $table->text("comment");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

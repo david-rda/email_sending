@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Emails;
+use Carbon\Carbon;
 
 class EmailController extends Controller
 {
@@ -22,7 +23,7 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            "email" => "required|email|unique"
+            "email" => "required|email"
         ]);
 
         try {
@@ -86,6 +87,35 @@ class EmailController extends Controller
         }else {
             return response()->json([
                 "error" => "ელ.ფოსტა ვერ წაიშალა."
+            ], 422);
+        }
+    }
+
+    /**
+     * @method GET
+     * @param Request
+     */
+    public function addEmailToExhibition(Request $request) {
+        $this->validate($request, [
+            "emails" => "required"
+        ]);
+
+        try {
+            foreach($request->emails as $emails) {
+                Emails::insert([
+                    "exhibition_id" => $request->exhibition_id,
+                    "email" => $emails,
+                    "created_at" => Carbon::now(),
+                    "updated_at" => Carbon::now(),
+                ]);
+            }
+
+            return response()->json([
+                "success" => "ელ. ფოსტები დაემატა"
+            ], 200);
+        }catch(Exception $e) {
+            return response()->json([
+                "error" => "ელ. ფოსტები ვერ დაემატა"
             ], 422);
         }
     }

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Exhibition extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "exhibitions";
 
@@ -17,6 +19,10 @@ class Exhibition extends Model
         "title",
         "country",
         "datetime"
+    ];
+
+    protected $dates = [
+        "deleted_at"
     ];
 
     protected $appends = [
@@ -45,11 +51,11 @@ class Exhibition extends Model
     }
 
     public function getDateTimeAttribute($value) {
-        return $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d H:i");
+        return Carbon::parse($value)->format("Y-m-d");
     }
 
     public function setDateTimeAttribute($value) {
-        $this->attributes["datetime"] = $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d H:i");
+        $this->attributes["datetime"] = $this->asDateTime($value)->setTimezone('Asia/Tbilisi')->format("Y-m-d");
     }
 }
 

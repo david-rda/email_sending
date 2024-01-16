@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer("template_price");
             $table->string("product_volume");
             $table->integer("product_price");
+            $table->softDeletes();
             $table->timestamps();
         });
     }
