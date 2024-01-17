@@ -39,15 +39,6 @@ class TemplateController extends Controller
             "link" => "http://localhost:8080/customer/" . $request->exhibition["id"]
         ]);
 
-        foreach($request->emails as $emails) {
-            Emails::insert([
-                "template_id" => $template->id,
-                "email" => $emails,
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
-            ]);
-        }
-
         if($template) {
             return response()->json([
                 'message' => 'ნიმუში შეინახა წარმატებით.',

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Emails;
+use App\Models\Exhibition;
+use App\Models\Template;
 
 class Exhibition extends Model
 {
@@ -26,7 +29,9 @@ class Exhibition extends Model
     ];
 
     protected $appends = [
-        "label"
+        "label",
+        "emails",
+        "templates"
     ];
 
     public $timestamps = true;
@@ -35,7 +40,8 @@ class Exhibition extends Model
         "created_at",
         "updated_at",
         "title",
-        "email"
+        "email",
+        "template",
     ];
 
     public function getLabelAttribute() {
@@ -46,8 +52,16 @@ class Exhibition extends Model
         return $this->hasMany(Emails::class, "exhibition_id", "id");
     }
 
+    public function template() {
+        return $this->hasMany(Template::class, "exhibition_id", "id");
+    }
+
     public function getEmailsAttribute() {
         return $this->email;
+    }
+
+    public function getTemplatesAttribute() {
+        return $this->template;
     }
 
     public function getDateTimeAttribute($value) {
