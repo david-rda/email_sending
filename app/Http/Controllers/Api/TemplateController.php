@@ -33,10 +33,10 @@ class TemplateController extends Controller
         ]);
 
         $template = Template::create([
-            'exhibition_id' => $request->exhibition["id"],
+            'exhibition_id' => $request->exhibition,
             'datetime' => $request->datetime,
             'text' => $request->text,
-            "link" => "http://localhost:8080/customer/" . $request->exhibition["id"]
+            "link" => "http://localhost:8080/customer/" . $request->exhibition
         ]);
 
         if($template) {
