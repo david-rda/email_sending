@@ -119,4 +119,8 @@ class EmailController extends Controller
             ], 422);
         }
     }
+
+    public function sentEmails() {
+        return Emails::where("status", 1)->get();
+    }
 }

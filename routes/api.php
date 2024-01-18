@@ -33,6 +33,7 @@ Route::group(["prefix" => "template"], function() {
 // ელ.ფოსტების მარშუტები
 Route::group(["prefix" => "email"], function() {
     Route::get("/list", [EmailController::class, "index"]); // ელ.ფოსტების სიის მარშუტი
+    Route::get("/sent/list", [EmailController::class, "sentEmails"]); // გაგზავნილი ელ.ფოსტების სიის მარშუტი
     Route::post("/add/to", [EmailController::class, "addEmailToExhibition"]); // ელ.ფოსტების დამატება გამოფენაზე
     Route::get("/show/{id}", [EmailController::class, "show"])->where(["id" => "[0-9]+"]); // ელ.ფოსტების სიის მარშუტი
     Route::delete("/delete/{id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი

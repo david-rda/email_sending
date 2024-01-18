@@ -18,15 +18,14 @@ class SendEmailController extends Controller
         $current_date = Carbon::now()->format("Y-m-d H:i");
 
         foreach($exhibitions as $exhibition) {
-            $mail = [];
-
             foreach($exhibition->emails as $email) {
+                
                 try {
                     $mails = Emails::where("exhibition_id", $exhibition->id)->where("id", $email["id"])->first();
                     
                     // if($current_date == $exhibition->template[0]["datetime"] && $mails->status == 0) {
-                        Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($email) {
-                            $message->to($email["email"]);
+                        Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($mails) {
+                            $message->to($mails->email);
                             $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
                             $message->subject("დაგეგმილი გამოფენა");
                         });
