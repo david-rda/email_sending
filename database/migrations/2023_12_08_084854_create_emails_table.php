@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("exhibition_id")->constrained()->onDelete("cascade");
             $table->string("email");
-            $table->integer("status")->default(0);
+            $table->integer("sent_status")->default(0);
+            $table->integer("filled_status")->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

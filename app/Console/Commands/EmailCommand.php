@@ -43,13 +43,13 @@ class EmailCommand extends Command
             $mails->save();
  
             try {
-                // if($current_date == $exhibition->template[0]["datetime"]) {
+                if($current_date == $exhibition->template[0]["datetime"]) {
                     Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($mail) {
                         $message->to($mail);
                         $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
                         $message->subject("დაგეგმილი გამოფენა");
                     });
-                // }
+                }
 
                 return response()->json([
                     "success" => "ელ. ფოსტა გაიგზავნა"

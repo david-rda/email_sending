@@ -22,6 +22,8 @@ class Emails extends Model
     protected $fillable = [
         "exhibition_id",
         "email",
+        "sent_status",
+        "filled_status",
     ];
     
     public $timestamps = true;
