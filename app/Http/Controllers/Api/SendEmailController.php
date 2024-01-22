@@ -19,27 +19,30 @@ class SendEmailController extends Controller
 
         foreach($exhibitions as $exhibition) {
             foreach($exhibition->emails as $email) {
-                
                 try {
-                    $mails = Emails::where("exhibition_id", $exhibition->id)->where("id", $email["id"])->first();
-                    
-                    // if($current_date == $exhibition->template[0]["datetime"] && $mails->sent_status == 0) {
+                    if($current_date == $exhibition->template[0]["datetime"]) {
+                        $mails = Emails::where("exhibition_id", $exhibition->id)->where("id", $email["id"])->first();
+                        
                         Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($mails) {
                             $message->to($mails->email);
                             $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
                             $message->subject("დაგეგმილი გამოფენა");
                         });
-                    // }
 
-                    $mails->sent_status = 1;
-                    $mails->save();
-    
-                    return response()->json([
-                        "success" => "ელ. ფოსტა გაიგზავნა"
-                    ], 200);
+                        return response()->json([
+                            "success" => "ელ. ფოსტა გაიგზავნა."
+                        ], 200);
+
+                        $mails->sent_status = 1;
+                        $mails->save();
+                    }else {
+                        return response()->json([
+                            "error" => "ელ. ფოსტა ვერ გაიგზავნა."
+                        ], 422);
+                    }
                 }catch(Exception $e) {
                     return response()->json([
-                        "error" => "ელ. ფოსტა ვერ გაიგზავნა"
+                        "error" => "დაფიქსირდა შეცდომა."
                     ], 422);
                 }
             }

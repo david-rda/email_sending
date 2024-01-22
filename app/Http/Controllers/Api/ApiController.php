@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BeneficiaryRequest;
 use App\Models\Detail;
+use App\Models\Emails;
 use App\Models\Organization;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -55,6 +56,10 @@ class ApiController extends Controller
                 "updated_at" => Carbon::now(),
             ]);
         }
+
+        $email = Emails::where("email", $request->email)->first();
+        $email->filled_status = 1;
+        $email->save();
 
         if($details) {
             return response()->json([
