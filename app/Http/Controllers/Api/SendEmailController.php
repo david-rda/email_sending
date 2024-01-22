@@ -23,13 +23,13 @@ class SendEmailController extends Controller
                 try {
                     $mails = Emails::where("exhibition_id", $exhibition->id)->where("id", $email["id"])->first();
                     
-                    if($current_date == $exhibition->template[0]["datetime"] && $mails->filled_status == 0) {
+                    // if($current_date == $exhibition->template[0]["datetime"] && $mails->sent_status == 0) {
                         Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($mails) {
                             $message->to($mails->email);
                             $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
                             $message->subject("დაგეგმილი გამოფენა");
                         });
-                    }
+                    // }
 
                     $mails->sent_status = 1;
                     $mails->save();

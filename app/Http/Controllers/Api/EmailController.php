@@ -76,13 +76,14 @@ class EmailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id, int $exhibition_id)
     {
         $email_delete = Emails::find($id)->delete();
 
         if($email_delete) {
             return response()->json([
-                "success" => "ელ.ფოსტა წაიშალა."
+                "success" => "ელ.ფოსტა წაიშალა.",
+                "data" => Emails::where("exhibition_id", $exhibition_id)->get()
             ], 200);
         }else {
             return response()->json([

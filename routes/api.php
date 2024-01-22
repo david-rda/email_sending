@@ -37,7 +37,7 @@ Route::group(["prefix" => "email"], function() {
     Route::get("/sent/list", [EmailController::class, "sentEmails"]); // გაგზავნილი ელ.ფოსტების სიის მარშუტი
     Route::post("/add/to", [EmailController::class, "addEmailToExhibition"]); // ელ.ფოსტების დამატება გამოფენაზე
     Route::get("/show/{id}", [EmailController::class, "show"])->where(["id" => "[0-9]+"]); // ელ.ფოსტების სიის მარშუტი
-    Route::delete("/delete/{id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
+    Route::delete("/delete/{id}/{exhibition_id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+", "exhibition_id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
     Route::post("/add", [EmailController::class, "store"]); // ელ.ფოსტის დამატების მარშუტი
     Route::put("/update/{id}", [EmailController::class, "update"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის განახლების მარშუტი
 });
