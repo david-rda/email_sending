@@ -120,7 +120,13 @@ class EmailController extends Controller
         }
     }
 
+    /**
+     * @method GET
+     * @param null
+     * 
+     * გაგზავნილი/ვერ გაგზავნილი ელ. ფოსტების სია
+     */
     public function sentEmails() {
-        return Emails::where("status", 1)->get();
+        return Emails::get();
     }
 }
