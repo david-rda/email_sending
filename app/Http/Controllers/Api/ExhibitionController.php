@@ -101,5 +101,5 @@ class ExhibitionController extends Controller
                 "error" => "გამოფენა ვერ წაიშალა."
             ], 422);
         }
-    } 
+    }
 }

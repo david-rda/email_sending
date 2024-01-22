@@ -8,6 +8,8 @@ use App\Http\Requests\BeneficiaryRequest;
 use App\Models\Detail;
 use App\Models\Organization;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FormExport;
 
 class ApiController extends Controller
 {
@@ -83,5 +85,14 @@ class ApiController extends Controller
         if($id != null) return Detail::where("exhibition_id", $id)->get();
 
         return Detail::all();
+    }
+
+    /**
+     * @method GET
+     * 
+     * განაცხადის ექსელის ჩამოტვირთვა
+     */
+    public function downloadExcel($id, $exhibition_id) {
+        return Excel::download(new FormExport($id, $exhibition_id), "details.xlsx");
     }
 }
