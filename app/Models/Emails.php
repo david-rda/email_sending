@@ -25,8 +25,16 @@ class Emails extends Model
         "sent_status",
         "filled_status",
     ];
+
+    protected $appends = [
+        "exhibition_name"
+    ];
     
     public $timestamps = true;
+
+    public function getExhibitionNameAttribute() {
+        return Exhibition::where("id", $this->attributes["exhibition_id"])->first()->label;
+    }
 }
 
 ?>
