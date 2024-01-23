@@ -95,38 +95,33 @@ class FormExport implements FromArray, withHeadings, WithColumnWidths, WithStyle
 
     public function array(): array
     {
-        $data = [];
-
         $organization = Organization::where("detail_id", $this->id)->get();
-        $detail = Detail::find($this->id)->get();
+        $detail = Detail::find($this->id);
 
-        foreach($detail as $key => $value) {
-            $data[] = [
-                Exhibition::find($this->exhibition_id)->label,
-                $value->name,
-                $value->mobile,
-                $value->position,
-                $value->email,
-                $value->recomendation,
-                $value->comment,
-            ];
+        $data = [
+            Exhibition::find($this->exhibition_id)->label,
+            $detail->name,
+            $detail->mobile,
+            $detail->position,
+            $detail->email,
+            $detail->recomendation,
+            $detail->comment,
+        ];
 
-            foreach($value->organizations as $key1 => $value1) {
-                array_push($data[$key],
-                    $value1->activity_name,
-                    $value1->country,
-                    $value1->company_name,
-                    $value1->target_country_name,
-                    $value1->stage_name,
-                    (empty($value1->product_volume) ? "" : $value1->product_volume),
-                    $value1->product_price,
-                    (empty($value1->template_volume) ? "" : $value1->template_volume),
-                    $value1->template_price,
-                );
-            }
+        foreach($organization as $key1 => $value) {
+            array_push($data,
+                $value["activity_name"],
+                $value["country"],
+                $value["company_name"],
+                $value["target_country_name"],
+                $value["stage_name"],
+                (empty($value["product_volume"]) ? "" : $value["product_volume"]),
+                $value["product_price"],
+                (empty($value["template_volume"]) ? "" : $value["template_volume"]),
+                $value["template_price"],
+            );
         }
 
-
-        return $data;
+        return [$data];
     }
 }
