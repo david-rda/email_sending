@@ -13,9 +13,9 @@ class TemplateController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(int $exhibition_id)
     {
-        return Template::all();
+        return Template::where("exhibition_id", $exhibition_id)->get();
     }
 
     /**
