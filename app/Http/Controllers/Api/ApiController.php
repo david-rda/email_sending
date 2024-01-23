@@ -11,6 +11,7 @@ use App\Models\Organization;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FormExport;
+use App\Exports\ExhibitionsExport;
 
 class ApiController extends Controller
 {
@@ -99,5 +100,14 @@ class ApiController extends Controller
      */
     public function downloadExcel($id, $exhibition_id) {
         return Excel::download(new FormExport($id, $exhibition_id), "details.xlsx");
+    }
+
+    /**
+     * @method GET
+     * 
+     * გამოფენების ექსელის ჩამოტვირთვა
+     */
+    public function downloadExcelExhibitions($exhibition_id) {
+        return Excel::download(new ExhibitionsExport($exhibition_id), "data.xlsx");
     }
 }

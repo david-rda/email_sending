@@ -18,6 +18,7 @@ Route::group(["prefix" => "exhibition"], function() {
     Route::delete("/delete/{id}", [ExhibitionController::class, "destroy"])->where(["id" => "[0-9]+"]); // გამოფენის წაშლის მარშუტი
     Route::post("/add", [ExhibitionController::class, "store"]); // გამოფენის დამატების მარშუტი
     // Route::put("/update/{id}", [ExhibitionController::class, "update"])->where(["id" => "[0-9]+"]); // გამოფენის განახლების მარშუტი
+    Route::get("/download/excel/{exhibition_id}", [ApiController::class, "downloadExcelExhibitions"])->where(["exhibition_id" => "[0-9]+"]); // გამოფენის განახლების მარშუტი
 });
 
 Route::group(["prefix" => "detail"], function() {
