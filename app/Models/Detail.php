@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Connection;
-use App\Models\ProductInfo;
+use App\Models\Exhibition;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,7 +35,8 @@ class Detail extends Model
     ];
 
     protected $appends = [
-        "organizations"
+        "organizations",
+        "exhibition_name"
     ];
 
     public $timestamps = true;
@@ -51,5 +51,9 @@ class Detail extends Model
 
     public function getOrganizationsAttribute() {
         return $this->organization;
+    }
+
+    public function getExhibitionNameAttribute() {
+        return Exhibition::where("id", $this->attributes["exhibition_id"])->first()->label;
     }
 }
