@@ -127,7 +127,8 @@ class EmailController extends Controller
      * 
      * გაგზავნილი/ვერ გაგზავნილი ელ. ფოსტების სია
      */
-    public function sentEmails() {
-        return Emails::get();
+    public function sentEmails(int $exhibition_id = null) {
+        if(!isset($exhibition_id)) return Emails::get();
+        else return Emails::where("exhibition_id", $exhibition_id)->get();
     }
 }
