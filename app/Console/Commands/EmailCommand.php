@@ -36,17 +36,19 @@ class EmailCommand extends Command
                 if($email->sent_status == 1 || $email->email == "1") continue;
                 else {
                     try {
-                        Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($email) {
-                            $message->to($email->email);
-                            $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
-                            $message->subject("დაგეგმილი გამოფენა");
-                        });
-    
-                        $mails = Emails::where("exhibition_id", $exhibition->id)->where("email", $email->email)->where("sent_status", 0)->get();
-                        foreach($mails as $mail) {
-                            $mail->sent_status = 1;
-                            $mail->save();
-                        }
+                        if($current_date == $exhibition->template[0]["datetime"]):
+                            Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($email) {
+                                $message->to($email->email);
+                                $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
+                                $message->subject("დაგეგმილი გამოფენა");
+                            });
+        
+                            $mails = Emails::where("exhibition_id", $exhibition->id)->where("email", $email->email)->where("sent_status", 0)->get();
+                            foreach($mails as $mail) {
+                                $mail->sent_status = 1;
+                                $mail->save();
+                            }
+                        endif;
                     }catch(Exception $e) {
                         return response()->json([
                             "error" => "დაფიქსირდა შეცდომა."
