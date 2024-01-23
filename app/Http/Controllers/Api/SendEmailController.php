@@ -31,7 +31,7 @@ class SendEmailController extends Controller
                         $mails = Emails::where("exhibition_id", $exhibition->id)->where("email", $email->email)->where("sent_status", 0)->get();
                         foreach($mails as $mail) {
                             $mail->sent_status = 1;
-                            $mail->updated_at = Carbon::now();
+                            $mail->sent_date = Carbon::now();
                             $mail->save();
                         }
                     }catch(Exception $e) {

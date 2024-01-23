@@ -24,6 +24,7 @@ class Emails extends Model
         "email",
         "sent_status",
         "filled_status",
+        "sent_date"
     ];
 
     protected $appends = [

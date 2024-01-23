@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("email");
             $table->integer("sent_status")->default(0);
             $table->integer("filled_status")->default(0);
+            $table->date("sent_date")->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
