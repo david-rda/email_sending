@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->foreignId("detail_id")->constrained()->onDelete("cascade");
-            $table->string("company_name");
-            $table->string("activity_name");
-            $table->string("country");
-            $table->string("stage_name");
-            $table->string("target_country_name");
-            $table->string("template_volume");
-            $table->integer("template_price");
-            $table->string("product_volume");
-            $table->integer("product_price");
+            $table->string("company_name")->nullable();
+            $table->string("activity_name")->nullable();
+            $table->string("country")->nullable();
+            $table->string("stage_name")->nullable();
+            $table->string("target_country_name")->nullable();
+            $table->string("template_volume")->nullable();
+            $table->integer("template_price")->nullable();
+            $table->string("product_volume")->nullable();
+            $table->integer("product_price")->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

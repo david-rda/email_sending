@@ -98,7 +98,8 @@ class EmailController extends Controller
      */
     public function addEmailToExhibition(Request $request) {
         $this->validate($request, [
-            "emails" => "required"
+            "emails" => "required|array",
+            "emails.*" => "required|email",
         ]);
 
         try {
