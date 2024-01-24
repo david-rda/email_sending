@@ -30,7 +30,8 @@ Route::group(["prefix" => "detail"], function() {
 
 Route::group(["prefix" => "template"], function() {
     Route::post("/add", [TemplateController::class, "store"])->where(["id" => "[0-9]+"]);
-    Route::get("/list/{exhibition_id}", [TemplateController::class, "index"])->where(["exhibition_id" => "[0-9]+"]);
+    Route::get("/get/{exhibition_id}", [TemplateController::class, "show"])->where(["exhibition_id" => "[0-9]+"]);
+    Route::put("/edit/{exhibition_id}", [TemplateController::class, "update"])->where(["exhibition_id" => "[0-9]+"]);
 });
 
 // ელ.ფოსტების მარშუტები

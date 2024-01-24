@@ -53,17 +53,35 @@ class TemplateController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $exhibition_id)
     {
-        return Template::find($id);
+        return Template::where("exhibition_id", $exhibition_id)->first();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $exhibition_id)
     {
-        //
+        $this->validate($request, [
+            "datetime" => "required",
+            "text" => "required"
+        ]);
+
+        try {
+            $template = Template::where("exhibition_id", $exhibition_id)->first();
+            $template->datetime = $request->datetime;
+            $template->text = $request->text;
+            $template->save();
+            
+            return response()->json([
+                "success" => "ნიმუში დაემატა"
+            ], 200);
+        }catch(Exception $e) {
+            return response()->json([
+                "error" => "ნიმუში ვერ დაემატა"
+            ], 422);
+        }
     }
 
     /**
