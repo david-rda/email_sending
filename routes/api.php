@@ -43,6 +43,7 @@ Route::group(["prefix" => "email"], function() {
     Route::delete("/delete/{id}/{exhibition_id}", [EmailController::class, "destroy"])->where(["id" => "[0-9]+", "exhibition_id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
     Route::post("/add", [EmailController::class, "store"]); // ელ.ფოსტის დამატების მარშუტი
     Route::put("/update/{id}", [EmailController::class, "update"])->where(["id" => "[0-9]+"]); // ელ.ფოსტის განახლების მარშუტი
+    Route::post("/send/to/{id}/{exhibition_id}", [EmailController::class, "send"])->where(["id" => "[0-9]+", "exhibition_id" => "[0-9]+"]); // ელ.ფოსტის წაშლის მარშუტი
 });
 
 ?>

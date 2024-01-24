@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Emails;
+use App\Models\Exhibition;
 use Carbon\Carbon;
+use Mail;
 
 class EmailController extends Controller
 {
@@ -131,5 +133,35 @@ class EmailController extends Controller
     public function sentEmails(int $exhibition_id = null) {
         if(!isset($exhibition_id)) return Emails::where("sent_status", 1)->get();
         else return Emails::where("sent_status", 1)->where("exhibition_id", $exhibition_id)->get();
+    }
+
+    /**
+     * @method POST
+     * კონკრეტულ მისამართზე ელ. ფოსტის გაგზავნის მეტოდი
+     */
+    public function send(int $id, int $exhibition_id) {
+        try {
+            $exhibition = Exhibition::find($exhibition_id);
+
+            $email = Emails::where("id", $id)->where("exhibition_id", $exhibition_id)->first();
+
+            Mail::send("mail.template", ["text" => $exhibition->template[0]["text"], "link" => $exhibition->template[0]["link"]], function($message) use($email) {
+                $message->to($email->email);
+                $message->from("harvester@mailgun.rda.gov.ge", "სოფლის განვითარების სააგენტო - (RDA)");
+                $message->subject("დაგეგმილი გამოფენა");
+            });
+
+            $email->sent_status = 1;
+            $email->sent_date = Carbon::now();
+            $email->save();
+
+            return response()->json([
+                "success" => "ელ. ფოსტა გაიგზავნა"
+            ], 200);
+        }catch(Exception $e) {
+            return response()->json([
+                "error" => "ელ. ფოსტა ვერ გაიგზავნა"
+            ], 422);
+        }
     }
 }
