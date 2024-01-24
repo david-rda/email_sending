@@ -22,10 +22,12 @@ class ApiController extends Controller
      */
     public function addDetail(Request $request, $id) {
         $this->validate($request, [
-            "fullname" => "required",
-            "position" => "required",
-            "mobile" => "required",
-            "email" => "required",
+            "fullname" => "required|min:7|max:255",
+            "position" => "required|max:255",
+            "mobile" => "required|max:9|min:9",
+            "email" => "required|email|max:255",
+            "recomendation" => "required|min:5|max:500",
+            "additional_info" => "required|max:500"
         ]);
 
         $details = Detail::updateOrCreate([
