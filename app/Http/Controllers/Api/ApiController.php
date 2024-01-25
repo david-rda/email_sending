@@ -74,9 +74,29 @@ class ApiController extends Controller
             }
         endif;
 
-        $email = Emails::where("email", $request->email)->first();
-        $email->filled_status = 1;
-        $email->save();
+        try {
+            $email = Emails::where("email", $request->email)->first();
+            if($email == null) {
+                return response()->json([
+                    "errors" => [
+                        "error" => [
+                            "მიუთითეთ იმ ელ. ფოსტის მისამართი, რომელზეც გადმოგეგზავნათ შეტყობინება."
+                        ]
+                    ]
+                ], 422);
+            }else {
+                $email->filled_status = 1;
+                $email->save();
+            }
+        }catch(Exception $e) {
+            return response()->json([
+                "errors" => [
+                    "error" => [
+                        "დაფიქსირდა შეცდომა, გთხოვთ გადაამოწმოთ შევსებული მონაცემები."
+                    ]
+                ]
+            ], 422);
+        }
 
         if($details) {
             return response()->json([
@@ -84,7 +104,7 @@ class ApiController extends Controller
             ], 200);
         }else {
             return response()->json([
-                "error" => "ვერ დაემატა."
+                "errors" => "ვერ დაემატა."
             ], 422);
         }
     }
