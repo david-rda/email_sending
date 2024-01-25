@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BeneficiaryRequest;
 use App\Models\Detail;
 use App\Models\Emails;
+use App\Models\Exhibition;
 use App\Models\Organization;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -21,6 +22,12 @@ class ApiController extends Controller
      * @return json
      */
     public function addDetail(Request $request, $id) {
+        if(Exhibition::where("id", $id)->get()->count() == 0) {
+            return response()->json([
+                "error" => "ასეთი გამოფენა არ არსებობს."
+            ], 422);
+        }
+
         $this->validate($request, [
             "fullname" => "required|min:7|max:255",
             "position" => "required|max:255",
@@ -47,23 +54,25 @@ class ApiController extends Controller
             "comment" => $request->additional_info,
         ]);
 
-        Organization::where("detail_id", $details->id)->delete();
-        foreach($request->dynamicData as $organizations) {
-            Organization::insert([
-                "detail_id" => $details->id,
-                "company_name" => $organizations["organization"],
-                "activity_name" => $organizations["activity"],
-                "country" => $organizations["country"],
-                "stage_name" => $organizations["activityLevel"],
-                "target_country_name" => $organizations["exportLocation"],
-                "template_volume" => isset($organizations["sent_example_volume"]) ? $organizations["sent_example_volume"] : "",
-                "template_price" => isset($organizations["sent_example_price"]) ? $organizations["sent_example_price"] : "",
-                "product_volume" => isset($organizations["sent_product_volume"]) ? $organizations["sent_product_volume"] : "",
-                "product_price" =>  isset($organizations["sent_product_price"]) ? $organizations["sent_product_price"] : "",
-                "created_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
-            ]);
-        }
+        if($request->dynamicData[0]["selected1"] != "0"):
+            Organization::where("detail_id", $details->id)->delete();
+            foreach($request->dynamicData as $organizations) {
+                Organization::insert([
+                    "detail_id" => $details->id,
+                    "company_name" => $organizations["organization"],
+                    "activity_name" => $organizations["activity"],
+                    "country" => $organizations["country"],
+                    "stage_name" => $organizations["activityLevel"],
+                    "target_country_name" => $organizations["exportLocation"],
+                    "template_volume" => isset($organizations["sent_example_volume"]) ? $organizations["sent_example_volume"] : "",
+                    "template_price" => isset($organizations["sent_example_price"]) ? $organizations["sent_example_price"] : "",
+                    "product_volume" => isset($organizations["sent_product_volume"]) ? $organizations["sent_product_volume"] : "",
+                    "product_price" =>  isset($organizations["sent_product_price"]) ? $organizations["sent_product_price"] : "",
+                    "created_at" => Carbon::now(),
+                    "updated_at" => Carbon::now(),
+                ]);
+            }
+        endif;
 
         $email = Emails::where("email", $request->email)->first();
         $email->filled_status = 1;
