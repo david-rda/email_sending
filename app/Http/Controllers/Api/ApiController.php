@@ -28,19 +28,59 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $this->validate($request, [
-            "fullname" => "required|min:7|max:255",
-            "position" => "required|max:255",
-            "mobile" => "required|max:9|min:9",
-            "email" => "required|email|max:255",
-            "recomendation" => "required|min:5|max:500",
-            "additional_info" => "required|max:500",
-            "dynamicData.*.organization" => "required_if:organization,!=,null|max:255",
-            "dynamicData.*.activity" => "required_if:activity,!=,null|max:255",
-            "dynamicData.*.country" => "required_if:country,!=,null|max:255",
-            "dynamicData.*.activityLevel" => "required_if:activityLevel,!=,null|max:255",
-            "dynamicData.*.exportLocation" => "required_if:exportLocation,!=,null|max:255",
-        ]);
+        if(!is_null($request->recomendation) && is_null($request->additional_info)) {
+            $this->validate($request, [
+                "fullname" => "required|min:7|max:255",
+                "position" => "required|max:255",
+                "mobile" => "required|max:9|min:9",
+                "email" => "required|email|max:255",
+                "recomendation" => "required|min:5|max:500",
+                "dynamicData.*.organization" => "required_if:organization,!=,null|max:255",
+                "dynamicData.*.activity" => "required_if:activity,!=,null|max:255",
+                "dynamicData.*.country" => "required_if:country,!=,null|max:255",
+                "dynamicData.*.activityLevel" => "required_if:activityLevel,!=,null|max:255",
+                "dynamicData.*.exportLocation" => "required_if:exportLocation,!=,null|max:255",
+            ]);
+        }else if(!is_null($request->additional_info) && is_null($request->recomendation)) {
+            $this->validate($request, [
+                "fullname" => "required|min:7|max:255",
+                "position" => "required|max:255",
+                "mobile" => "required|max:9|min:9",
+                "email" => "required|email|max:255",
+                "additional_info" => "required|max:500|min5",
+                "dynamicData.*.organization" => "required_if:organization,!=,null|max:255",
+                "dynamicData.*.activity" => "required_if:activity,!=,null|max:255",
+                "dynamicData.*.country" => "required_if:country,!=,null|max:255",
+                "dynamicData.*.activityLevel" => "required_if:activityLevel,!=,null|max:255",
+                "dynamicData.*.exportLocation" => "required_if:exportLocation,!=,null|max:255",
+            ]);
+        }else if(!is_null($request->additional_info) || !is_null($request->recomendation)) {
+            $this->validate($request, [
+                "fullname" => "required|min:7|max:255",
+                "position" => "required|max:255",
+                "mobile" => "required|max:9|min:9",
+                "email" => "required|email|max:255",
+                "additional_info" => "required|max:500|min:5",
+                "recomendation" => "required|max:500|min:5",
+                "dynamicData.*.organization" => "required_if:organization,!=,null|max:255",
+                "dynamicData.*.activity" => "required_if:activity,!=,null|max:255",
+                "dynamicData.*.country" => "required_if:country,!=,null|max:255",
+                "dynamicData.*.activityLevel" => "required_if:activityLevel,!=,null|max:255",
+                "dynamicData.*.exportLocation" => "required_if:exportLocation,!=,null|max:255",
+            ]);
+        }else {
+            $this->validate($request, [
+                "fullname" => "required|min:7|max:255",
+                "position" => "required|max:255",
+                "mobile" => "required|max:9|min:9",
+                "email" => "required|email|max:255",
+                "dynamicData.*.organization" => "required_if:organization,!=,null|max:255",
+                "dynamicData.*.activity" => "required_if:activity,!=,null|max:255",
+                "dynamicData.*.country" => "required_if:country,!=,null|max:255",
+                "dynamicData.*.activityLevel" => "required_if:activityLevel,!=,null|max:255",
+                "dynamicData.*.exportLocation" => "required_if:exportLocation,!=,null|max:255",
+            ]);
+        }
 
         $details = Detail::updateOrCreate([
             "email" => $request->email
